@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        window.onload = function() {
+            const currentPageUrl = window.location.href;
+            const redirectUrl = getQueryParam('redirect');
+
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+                const qrCode = new QRCodeStyling({
+                    width: 256,
+                    height: 256,
+                    //type: "svg",
+                    data: currentPageUrl,
+                    dotsOptions: {
+                        color: "#4267b2",
+                        type: "extra-rounded"
+                    },
+                    backgroundOptions: {
+                        color: "#e9ebee",
+                    },
+                    imageOptions: {
+                        crossOrigin: "anonymous",
+                        margin: 20
+                    }
+                });
+
+                qrCode.append(document.getElementById("qrcode"));
+            } else {
+                document.getElementById('fallback-text').innerHTML = 'Please provide a "redirect" GET parameter in your query';
+            }
+        };
+    </script>
+</head>
+<body>
+    <p id="fallback-text"></p>
+    <div id="qrcode"></div>
+</body>
+</html>
